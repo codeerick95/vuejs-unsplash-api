@@ -32,49 +32,62 @@
       </div>
     </div>
     <div class="card-columns">
-      <Card v-for="photo in photos" :key="photo.id" :photo="photo" />
+      <div class="card border-0" v-for="photo in photos" :key="photo.id">
+        <img :src="photo.urls.regular" alt="Demo" class="img-fluid" />
+        <div
+          class="card-img-overlay d-flex justify-content-between align-items-start"
+        >
+          <template v-if="photo">
+            <div>
+              <img
+                :src="photo.user.profile_image.small"
+                alt="User profile image"
+                class="rounded-circle"
+              />
+              <a href class="btn btn-link text-white">
+                {{ photo.user.username }}
+              </a>
+            </div>
+            <span class="badge badge-light align-self-end">
+              <img src="./assets/like.png" alt="Icon like" class="icon" />
+              {{ photo.likes }}
+            </span>
+          </template>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Unsplash from "unsplash-js";
-import Card from "./components/Card.vue";
+const axios = require("axios");
 
 export default {
   name: "app",
-  components: {
-    Card
-  },
   data() {
     return {
       query: "",
       client_id:
         "617ced32bb237bddc6b510a81c810c5f881079f7a3092b647b8162b17c3bddef",
       page: 1,
+      per_page: 10,
       photos: []
     };
   },
   watch: {
-    query() {
-      this.getPhotos();
-    }
-  },
-  methods: {
-    getPhotos() {
-      const unsplash = new Unsplash({
-        applicationId:
-          "617ced32bb237bddc6b510a81c810c5f881079f7a3092b647b8162b17c3bddef",
-        secret:
-          "c9a8bf4423dca1546b4f1155cf818802aeccd6e1b525d9c452c02f97fd4337cc"
-      });
-      unsplash.search
-        .photos(this.query, this.page, 10)
-        .then(toJson => {
-          return toJson.json();
+    query(val) {
+      this.query = val;
+      axios
+        .get(
+          `https://api.unsplash.com/search/photos?query=${this.query}&page=${
+            this.page
+          }&per_page=${this.per_page}&client_id=${this.client_id}`
+        )
+        .then(response => {
+          this.photos = response.data.results;
         })
-        .then(json => {
-          this.photos = json.results;
+        .catch(error => {
+          console.log(error);
         });
     }
   }

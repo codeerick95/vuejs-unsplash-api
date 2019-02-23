@@ -49,8 +49,6 @@ export default {
   data() {
     return {
       query: "",
-      client_id:
-        "617ced32bb237bddc6b510a81c810c5f881079f7a3092b647b8162b17c3bddef",
       page: 1,
       photos: []
     };
@@ -64,9 +62,9 @@ export default {
     getPhotos() {
       const unsplash = new Unsplash({
         applicationId:
-          "617ced32bb237bddc6b510a81c810c5f881079f7a3092b647b8162b17c3bddef",
+          "Tú applicationId de Unsplash / your Unsplash applicationId",
         secret:
-          "c9a8bf4423dca1546b4f1155cf818802aeccd6e1b525d9c452c02f97fd4337cc"
+          "Tú secret de Unsplash"
       });
       unsplash.search
         .photos(this.query, this.page, 10)

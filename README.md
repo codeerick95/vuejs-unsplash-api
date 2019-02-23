@@ -1,4 +1,6 @@
 # vue-unsplash-api
+Consumiendo la Api de Unsplash con Vuejs para obtener imágenes según palabra clave.
+![grab-landing-page](https://github.com/codeerick95/vuejs-unsplash-api/blob/gh-pages/demo.gif)
 
 ## Project setup
 ```
